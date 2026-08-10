@@ -1,14 +1,11 @@
-
-
-
-# file imports
-
-# module imports
 from fastapi import FastAPI
-from pydantic import BaseModel
 
 app = FastAPI(
     title="Ragamuffin",
-    description="A simple RAG API",
-    version="1.0.0",
+    version="0.1.0",
 )
+
+
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
