@@ -1,0 +1,26 @@
+[project]
+name = "ragamuffin"
+version = "1.0.0"
+description = "A simple RAG API using FastAPI, Crawl4AI, OpenAI and Supabase"
+readme = "README.md"
+requires-python = ">=3.10"
+
+dependencies = [
+    "fastapi[standard]",
+    "uvicorn",
+    "crawl4ai",
+    "playwright",
+    "supabase",
+    "pydantic-settings",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+    "httpx",
+    "ruff",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
