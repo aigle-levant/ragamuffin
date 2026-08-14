@@ -2,7 +2,6 @@ import asyncio
 import json
 from pathlib import Path
 
-from ragamuffin.config.settings import SEED
 from ragamuffin.crawler.run import crawl
 
 
@@ -23,18 +22,22 @@ async def main():
             f"{page.url}"
         )
 
-    OUTPUT_DIR.mkdir(exist_ok=True)
+    OUTPUT_DIR.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
 
     with OUTPUT_FILE.open(
         "w",
         encoding="utf-8",
-    ) as f:
+    ) as file:
+
         json.dump(
             [
                 page.model_dump(mode="json")
                 for page in pages
             ],
-            f,
+            file,
             indent=2,
             ensure_ascii=False,
         )

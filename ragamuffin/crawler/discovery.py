@@ -23,17 +23,30 @@ async def discover():
     results = []
     seen_urls = set()
 
+    remaining_pages = MAX_PAGES
+
     for seed_url in SEED:
 
-        remaining = MAX_PAGES - len(results)
-
-        if remaining <= 0:
+        if remaining_pages <= 0:
             break
 
-        seed_results = await crawl_seed(
-            seed_url,
-            max_pages=remaining,
-        )
+        try:
+
+            seed_results = await crawl_seed(
+                seed_url,
+                max_pages=remaining_pages,
+            )
+
+        except Exception as error:
+
+            print(
+                f"[ERROR] Failed to crawl seed: "
+                f"{seed_url}"
+            )
+
+            print(f"[ERROR] {error}")
+
+            continue
 
         for result in seed_results:
 
@@ -49,12 +62,13 @@ async def discover():
                 continue
 
             seen_urls.add(url)
-
             results.append(
                 (seed_url, result)
             )
 
-            if len(results) >= MAX_PAGES:
+            remaining_pages -= 1
+
+            if remaining_pages <= 0:
                 break
 
     return results

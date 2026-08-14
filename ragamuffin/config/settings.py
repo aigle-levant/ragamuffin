@@ -13,10 +13,19 @@ ALLOWED_DOMAINS = [
 ]
 # CRAWL_STRATEGY = "bfs"
 MAX_DEPTH = 1
+MAX_RETRIES = 3
 MAX_PAGES = 20
 RESPECT_ROBOTS = True
 TIMEOUT = 30_000
 MAX_RETRIES = 3
+RETRYABLE_STATUS_CODES = {
+    429,
+    500,
+    502,
+    503,
+    504,
+}
+
 
 # model settings
 EMBEDDING_MODEL = "text-embedding-3-small"
