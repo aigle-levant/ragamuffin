@@ -1,39 +1,64 @@
-# ragamuffin
+# Ragamuffin
 Setup your RAG agent using FastAPI with this ONE package!
 
 ## Installation
+
+### Clone the repo
 
 ```bash
 git clone https://github.com/aigle-levant/ragamuffin.git
 cd ragamuffin
 ```
 
-Setup virtual environment
+### Run setup script
 
-macOS / Linux:
+#### macOS / Linux
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
+chmod +x setup.sh
+./setup.sh
 ```
 
-Windows:
+The script will:
+
+- Create a Python virtual environment
+- Activate the virtual environment
+- Install the dependencies from requirements.txt
+- Set up Crawl4AI
+- Run the crawler test
+
+#### Windows
 
 ```bash
-python -m venv .venv
-.venv\Scripts\activate
+Set-ExecutionPolicy -Scope Process Bypass
+.\setup.ps1
 ```
 
-Now install packages
+- Create a Python virtual environment
+- Activate the virtual environment
+- Install the dependencies from requirements.txt
+- Set up Crawl4AI
+- Run the crawler test
 
-```bash
-python -m pip install -r requirements.txt
-```
+## Test
 
-Usage: currently we have a test_crawl.py for testing our crawler's capabilities
+You can also run the test manually by `python -m ragamuffin.scripts.test_crawl`.
+Output is saved in `./output`
 
-You will receive the output in form of a `crawl_output.json` file.
+## Config
 
-```bash
-python -m ragamuffin.scripts.test_crawl
+At `ragamuffin/config/settings.py` you can configure the crawler settings.
+
+For example:
+
+```py
+SEED = [
+    "https://example.com",
+]
+MAX_DEPTH = 1
+MAX_PAGES = 20
+ALLOWED_DOMAINS = []
+RESPECT_ROBOTS = True
+TIMEOUT = 30_000
+MAX_RETRIES = 3
 ```
