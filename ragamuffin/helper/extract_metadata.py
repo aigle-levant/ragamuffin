@@ -1,6 +1,6 @@
 
 # page import
-from ragamuffin.api.schemas import PageMetadata
+from ragamuffin.schemas import PageMetadata
 
 def extract_metadata(result, content: str) -> PageMetadata:
     metadata = result.metadata or {}

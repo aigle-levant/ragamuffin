@@ -1,27 +1,31 @@
-
-# file imports
-from ragamuffin.config.settings import SEED
-from ragamuffin.crawler.run import crawl_seeds
-
-# imports
 import asyncio
 import json
+from pathlib import Path
+
+from ragamuffin.config.settings import SEED
+from ragamuffin.crawler.run import crawl
+
+
+OUTPUT_DIR = Path("output")
+OUTPUT_FILE = OUTPUT_DIR / "crawl_output.json"
+
 
 async def main():
 
-    pages = await crawl_seeds(SEED)
+    pages = await crawl()
 
-    print(f"Crawled {len(pages)} pages")
+    print(f"\nCrawled {len(pages)} pages\n")
 
     for page in pages:
-        print(f"\nURL: {page.url}")
-        print(f"Success: {page.success}")
-        print(f"Status: {page.status_code}")
-        print(f"Title: {page.metadata.title}")
-        print(f"Words: {page.metadata.word_count}")
+        print(
+            f"[depth={page.depth}] "
+            f"{page.status_code} "
+            f"{page.url}"
+        )
 
-    with open(
-        "crawl_output.json",
+    OUTPUT_DIR.mkdir(exist_ok=True)
+
+    with OUTPUT_FILE.open(
         "w",
         encoding="utf-8",
     ) as f:
@@ -34,6 +38,8 @@ async def main():
             indent=2,
             ensure_ascii=False,
         )
+
+    print(f"\nSaved: {OUTPUT_FILE}")
 
 
 if __name__ == "__main__":
