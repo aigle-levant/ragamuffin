@@ -4,12 +4,19 @@ Discover pages starting from the configured seed URLs.
 """
 
 # page imports
-from ragamuffin.config.settings import SEED, ALLOWED_DOMAINS
+from ragamuffin.config.settings import (
+    SEED,
+    ALLOWED_DOMAINS,
+    MAX_PAGES,
+)
+
 from ragamuffin.crawler.crawl import crawl_seed
+
 from ragamuffin.helper.url import (
     is_allowed_domain,
     normalize_url,
 )
+
 
 async def discover():
 
@@ -18,7 +25,15 @@ async def discover():
 
     for seed_url in SEED:
 
-        seed_results = await crawl_seed(seed_url)
+        remaining = MAX_PAGES - len(results)
+
+        if remaining <= 0:
+            break
+
+        seed_results = await crawl_seed(
+            seed_url,
+            max_pages=remaining,
+        )
 
         for result in seed_results:
 
@@ -38,5 +53,8 @@ async def discover():
             results.append(
                 (seed_url, result)
             )
+
+            if len(results) >= MAX_PAGES:
+                break
 
     return results

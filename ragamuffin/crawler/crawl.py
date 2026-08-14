@@ -1,8 +1,7 @@
 
-# page import
+# page imports
 from ragamuffin.config.settings import (
     MAX_DEPTH,
-    MAX_PAGES,
     RESPECT_ROBOTS,
     TIMEOUT,
 )
@@ -11,11 +10,15 @@ from ragamuffin.config.settings import (
 from crawl4ai import AsyncWebCrawler, CrawlerRunConfig
 from crawl4ai.deep_crawling import BFSDeepCrawlStrategy
 
-async def crawl_seed(seed_url: str):
+
+async def crawl_seed(
+    seed_url: str,
+    max_pages: int,
+):
 
     strategy = BFSDeepCrawlStrategy(
         max_depth=MAX_DEPTH,
-        max_pages=MAX_PAGES,
+        max_pages=max_pages,
         include_external=False,
     )
 
